@@ -1,13 +1,13 @@
 import axios from 'axios';
-import config, { delearBaseUrl } from '../config/config'
+import { farmerBaseUrl } from '../config/config'
 
-export const userService = {
-    POST,
+export const farmerService = {
     GET,
+    POST
 }
 
 function GET(apiendpoint,header){
-    return axios.get(delearBaseUrl+apiendpoint,{
+    return axios.get(farmerBaseUrl+apiendpoint,{
         headers:header
     }).then(response=>{
         return response
@@ -17,7 +17,7 @@ function GET(apiendpoint,header){
 }
 
 function POST(apiendpoint,header,payload){
-    return axios.post(delearBaseUrl+apiendpoint,
+    return axios.post(farmerBaseUrl+apiendpoint,
         payload,
         {
         headers:header
@@ -27,4 +27,3 @@ function POST(apiendpoint,header,payload){
         return error
     })
 }
-

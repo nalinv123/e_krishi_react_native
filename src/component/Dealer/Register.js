@@ -6,7 +6,7 @@ import AlertComponent from "../alert";
 import { connect } from "react-redux";
 import { validateField } from "../../validator/validationService";
 import ValidationError from "../ValidationError";
-import { delearAction } from "../../actions/action";
+import { dealearAction, dealerAction } from "../../actions/action";
 
 class DealerRegisterComponent extends Component {
 
@@ -222,7 +222,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    registerDealer: dealerInfo => dispatch(delearAction.register(dealerInfo))
+    registerDealer: dealerInfo => dispatch(dealerAction.register(dealerInfo))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) (DealerRegisterComponent);

@@ -3,7 +3,7 @@ import { View, Text, Separator, Button, Form, Item, Label, Input } from "native-
 import { StyleSheet } from "react-native";
 import AccordionList from "accordion-collapse-react-native/build/components/AccordionList";
 import { connect } from 'react-redux';
-import { delearAction } from "../../actions/action";
+import { dealerAction } from "../../actions/action";
 import Loader from "../loader";
 import AsyncStorage from '@react-native-community/async-storage';
 import ValidationError from "../ValidationError";
@@ -177,8 +177,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getDealerVegetables: (dealerEmail, token) => dispatch(delearAction.getDealerVegetables(dealerEmail, token)),
-  updateDealerVegetable: (updatedVegetable, token ) => dispatch(delearAction.updateDealerVegetable(updatedVegetable, token))
+  getDealerVegetables: (dealerEmail, token) => dispatch(dealerAction.getDealerVegetables(dealerEmail, token)),
+  updateDealerVegetable: (updatedVegetable, token ) => dispatch(dealerAction.updateDealerVegetable(updatedVegetable, token))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps) (DealerVegetables);

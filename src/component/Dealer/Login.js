@@ -5,8 +5,8 @@ import { validateField } from "../../validator/validationService";
 import ValidationError from "../ValidationError";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { delearAction } from "../../actions/action";
-import { userService } from "../../services";
+import { dealearAction, dealerAction } from "../../actions/action";
+import { dealerService } from "../../services";
 import Loader from "../loader";
 import AlertComponent from "../alert";
 import AsyncStorage from '@react-native-community/async-storage';
@@ -159,7 +159,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    login: user_info => dispatch(delearAction.login(user_info.email, user_info.password))
+    login: user_info => dispatch(dealerAction.login(user_info.email, user_info.password))
 });
 
 const styles = StyleSheet.create({

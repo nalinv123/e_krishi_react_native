@@ -6,7 +6,7 @@ import DealerProfile from "./Profile";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faSignOutAlt, faSeedling, faUser } from '@fortawesome/free-solid-svg-icons'
 import { connect } from "react-redux";
-import { delearAction } from "../../actions/action";
+import { dealerAction } from "../../actions/action";
 import AsyncStorage from "@react-native-community/async-storage";
 
 class DealerHome extends Component {
@@ -73,7 +73,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    logout : () => dispatch(delearAction.logout())
+    logout : () => dispatch(dealerAction.logout())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps) (DealerHome);

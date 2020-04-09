@@ -1,14 +1,19 @@
-import { userService } from "../services/"
-import { loginUrl, registerUrl, getDealerVegetablesUrl, logoutUrl, updateVegetableUrl } from "../config/config"
+import { dealerService } from "../services/dealerServices"
+import { loginUrl, registerUrl, getDealerVegetablesUrl, logoutUrl, updateVegetableUrl, searchVegetablesUrl } from "../config/config"
 import { SERVICE_PENDING, HIDE_ALERT, SERVICE_ERROR, SERVICE_SUCCESS_RESPONSE, SERVICE_FAIL_RESPONSE, SHOW_REGISTRATION_SUCCESS, LOGOUT_SUCCESS, FETCH_SERVICE_SUCCESS_RESPONSE, FETCH_SERVICE_FAIL_RESPONSE, LOGIN_SUCCESS } from "./actiontypes";
 import AsyncStorage from "@react-native-community/async-storage";
+import { farmerService } from "../services/farmerServices";
 
-export const delearAction = {
+export const dealerAction = {
     login,
     register,
     getDealerVegetables,
     logout,
     updateDealerVegetable
+}
+
+export const farmerAction = {
+    searchVegetables
 }
 
 function login(email,password){
@@ -23,7 +28,7 @@ function login(email,password){
             "Content-Type":"application/json"
         };
 
-        userService.POST(apiendpoint,header,payload)
+        dealerService.POST(apiendpoint,header,payload)
         .then(response=>{
             if (response.data.status) {
                 dispatch(loginSuccess(response.data));
@@ -46,7 +51,7 @@ function register(dealerInfo) {
             "Content-Type":"application/json"
         };
 
-        userService.POST(apiendpoint, header, payload)
+        dealerService.POST(apiendpoint, header, payload)
             .then(response => {
                 if (response.data.status) {
                     //console.log(response.data);
@@ -76,7 +81,7 @@ function getDealerVegetables(email, token) {
             "Content-Type":"application/json",
             "Authorization":"Bearer " + token
         };
-        userService.POST(apiendpoint, header, payload)
+        dealerService.POST(apiendpoint, header, payload)
             .then(response => {
                 //console.log("Get dealer vegetables res : ", response.data);
                 if (response.message !== undefined && response.message.includes("401")) {
@@ -97,7 +102,7 @@ function logout() {
         dispatch(serviceActionPending);
         let apiendpoint = logoutUrl;
 
-        userService.GET(apiendpoint, null)
+        dealerService.GET(apiendpoint, null)
             .then(response => {
                 // console.log(response.data);
                 if (response.data === "Logout Successful") {
@@ -121,7 +126,7 @@ function updateDealerVegetable(updatedVegetable, token) {
             "Content-Type":"application/json",
             "Authorization":"Bearer " + token
         };
-        userService.POST(apiendpoint, header, payload)
+        dealerService.POST(apiendpoint, header, payload)
             .then(response => {
                 //console.log("Get dealer vegetables res : ", response.data);
                 if (response.message !== undefined && response.message.includes("401")) {
@@ -142,6 +147,26 @@ function updateDealerVegetable(updatedVegetable, token) {
                 dispatch(showError(error));
             });
         //dispatch(showSuccessResponse);
+    }
+}
+
+function searchVegetables(searchVegetable) {
+    return dispatch => {
+        dispatch(serviceActionPending());
+        let apiendpoint = searchVegetablesUrl;
+        let payload = searchVegetable;
+        let header = {
+            "Content-Type":"application/json",
+        };
+
+        farmerService.POST(apiendpoint, header, payload)
+            .then(response => {
+                //console.log(response.data);
+                dispatch(showFetchServiceSuccessResponse(response.data));
+            })
+            .catch(error => {
+                dispatch(showError(error))
+            })
     }
 }
 

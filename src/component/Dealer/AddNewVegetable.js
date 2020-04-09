@@ -3,6 +3,9 @@ import { View, Form, Item, Label, Input, Text, Button } from "native-base";
 import { StyleSheet } from "react-native";
 import { validateField } from "../../validator/validationService";
 import ValidationError from "../ValidationError";
+import AsyncStorage from "@react-native-community/async-storage";
+import { dealerAction } from "../../actions/action";
+import { connect } from "react-redux";
 
 class DealerAddNewVegetable extends Component {
 
@@ -12,9 +15,30 @@ class DealerAddNewVegetable extends Component {
             name: "",
             price: "",
             nameError: "",
-            priceError: ""
+            priceError: "",
+            dealer: {},
+            token: ""
         }
     }
+
+    componentDidMount() {
+        AsyncStorage.getItem('dealer', (error, result) => {
+          if (result)
+          {
+            //console.log("In will mount : ", JSON.parse(result));
+            const dealer = JSON.parse(result);
+            if (dealer && dealer.token) {
+              let email = (dealer.dealer || {}).email;
+              this.setState({
+                dealer: dealer.dealer,
+                token: dealer.token
+              })
+            }
+          } else {
+            this.props.navigation.navigate('DealerLogin');
+          }
+        });
+      }
 
     _handleNameChange = name => {
         this.setState({
@@ -39,6 +63,18 @@ class DealerAddNewVegetable extends Component {
         this.setState({
             priceError: priceError
         })
+
+        if (!nameError && !priceError) {
+            // console.log("no error", this.state.dealer);
+            const addVegetable = {
+                dealerEmail: this.state.dealer.email,
+                vegetableName: this.state.name,
+                vegetablePrice: this.state.price
+            }
+
+            // console.log(this.state.token)
+            this.props.addNewVegetable(addVegetable, this.state.token)
+        }
     }
     
     render() {
@@ -84,6 +120,10 @@ class DealerAddNewVegetable extends Component {
     }
 }
 
+const mapDispatchToProps = dispatch => ({
+    addNewVegetable: (addVegetable, token) => dispatch(dealerAction.updateDealerVegetable(addVegetable, token))
+})
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -99,4 +139,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default DealerAddNewVegetable;
+export default connect(null, mapDispatchToProps) (DealerAddNewVegetable);

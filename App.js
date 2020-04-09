@@ -12,6 +12,7 @@ import SearchResultsComponent from './src/component/Farmer/SearchResults';
 import DealerHome from './src/component/Dealer/Home';
 import thunk from 'redux-thunk';
 import DealerAddNewVegetable from './src/component/Dealer/AddNewVegetable';
+import DealerDetails from './src/component/Farmer/dealerDetails';
 
 const AppNavigator = createStackNavigator({
   Main: {
@@ -34,6 +35,9 @@ const AppNavigator = createStackNavigator({
   },
   DealerAddNewVegetable: {
     screen: DealerAddNewVegetable
+  },
+  DealerDetails: {
+    screen: DealerDetails
   },
   initialRouteName: 'Main'
 });
